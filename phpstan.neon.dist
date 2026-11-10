@@ -6,5 +6,8 @@ parameters:
     phpVersion: 80229
     paths:
         - .
+    scanFiles:
+        - tests/stubs/wp-cli.php
     excludePaths:
         - vendor
+        - tests/stubs
