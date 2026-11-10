@@ -5,6 +5,7 @@
       "Bash(python3 -m json.tool:*)",
       "Bash(composer lint:*)",
       "Bash(composer format:*)",
+      "Bash(composer test:*)",
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
