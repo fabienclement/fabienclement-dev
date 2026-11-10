@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 #
-# Éprouve bin/avant-mise-en-ligne sur la base du site Local.
+# Éprouve bin/controle-surcharges sur la base du site Local.
 # Le site doit tourner dans Local. Le test exporte la base dans app/sql/,
 # crée une copie du gabarit index, puis supprime cette copie.
 #
-# Usage : tests/avant-mise-en-ligne.test.sh
+# Usage : tests/controle-surcharges.test.sh
 
 set -euo pipefail
 
@@ -15,7 +15,7 @@ theme="$(cd "$(dirname "$0")/.." && pwd)"
 echecs=0
 
 code=0
-sortie="$("$theme/bin/avant-mise-en-ligne" 2>&1)" || code=$?
+sortie="$("$theme/bin/controle-surcharges" 2>&1)" || code=$?
 if [ "$code" -ne 0 ]; then
 	echo "Base propre : sortie en $code au lieu de 0." >&2
 	echo "$sortie" >&2
@@ -40,7 +40,7 @@ copie="$(wp eval '
 trap 'wp post delete "$copie" --force --quiet' EXIT
 
 code=0
-sortie="$("$theme/bin/avant-mise-en-ligne" 2>&1)" || code=$?
+sortie="$("$theme/bin/controle-surcharges" 2>&1)" || code=$?
 if [ "$code" -ne 1 ]; then
 	echo "Copie du gabarit index : sortie en $code au lieu de 1." >&2
 	echecs=1
@@ -55,4 +55,4 @@ if [ "$echecs" -ne 0 ]; then
 	exit 1
 fi
 
-echo "avant-mise-en-ligne : vert."
+echo "controle-surcharges : vert."

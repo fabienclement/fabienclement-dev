@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #
-# Contrôle le site Local avant une mise en ligne.
+# Contrôle que la base du site Local ne masque aucun fichier du thème.
 # Sort en 1 quand la base garde une copie qui masque un fichier du thème.
 #
-# Usage : bin/avant-mise-en-ligne
+# Usage : bin/controle-surcharges
 
 set -euo pipefail
 
