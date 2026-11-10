@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#
+# Contrôle que la base du site Local ne masque aucun fichier du thème.
+# Sort en 1 quand la base garde une copie qui masque un fichier du thème.
+#
+# Usage : bin/controle-surcharges
+
+set -euo pipefail
+
+# shellcheck source=environnement-local.sh
+. "$(dirname "$0")/environnement-local.sh"
+
+wp eval-file "$theme/bin/surcharges.php"

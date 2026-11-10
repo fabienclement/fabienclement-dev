@@ -20,7 +20,9 @@ WordPress charge le PHP du thème sans passer par Composer. Les dossiers `vendor
 
 `composer lint` lance PHPCS, qui contrôle les standards de WordPress sur la configuration de `phpcs.xml.dist`. Composer lance ensuite PHPStan, qui contrôle les types. `composer format` corrige ce qui se corrige seul. `composer test` lance PHPUnit sur `tests/`. Le sous-agent `verify-theme` lance ces contrôles avant un commit.
 
-`tests/avant-mise-en-ligne.test.sh` éprouve le script d'avant mise en ligne sur le site Local, qui doit tourner. Ce test exporte la base dans `app/sql/`. Il crée ensuite une copie du gabarit `index`, puis il la supprime. Lance ce test avant de merger une pull request qui touche `bin/`.
+`tests/controle-surcharges.test.sh` éprouve le script `bin/controle-surcharges` sur le site Local, qui doit tourner. Ce test exporte la base dans `app/sql/`. Ce test crée ensuite une copie du gabarit `index`, puis supprime cette copie. Lance ce test avant de merger une pull request qui touche `bin/`.
+
+Aucun test ne couvre `bin/controle-accessibilite` et `bin/controle-vitesse`, les scripts qui lancent axe et Lighthouse. Lance `bin/avant-mise-en-ligne` sur le site Local avant de merger une pull request qui touche l'un de ces deux scripts.
 
 `tests/stubs/wp-cli.php` déclare à PHPStan les méthodes de `WP_CLI` que le thème appelle. Une méthode de `WP_CLI` que le thème appelle pour la première fois s'ajoute à ce fichier.
 

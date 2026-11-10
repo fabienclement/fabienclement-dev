@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#
+# Passe axe sur une page du site Local par gabarit du thème.
+# axe vérifie les critères A et AA des WCAG 2.2.
+# Sort en 1 quand axe trouve une violation sur une page.
+#
+# Usage : bin/controle-accessibilite
+
+set -euo pipefail
+
+# shellcheck source=environnement-local.sh
+. "$(dirname "$0")/environnement-local.sh"
+# shellcheck source=pages-controlees.sh
+. "$theme/bin/pages-controlees.sh"
+
+# La version d'axe est fixée, pour que deux contrôles restent comparables.
+axe_cli="@axe-core/cli@4.14.0"
+
+# @axe-core/cli embarque un chromedriver qui suit son propre Chrome.
+# Le chromedriver doit avoir la version majeure du Chrome installé :
+# le 10/11/2026, axe embarquait le chromedriver 152, pour un Chrome 157.
+chrome="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+majeure="$("$chrome" --version | sed -E 's/[^0-9]*([0-9]+)\..*/\1/')"
+cache="${XDG_CACHE_HOME:-$HOME/.cache}/fabienclement-dev/chromedriver-$majeure"
+chromedriver="$cache/node_modules/chromedriver/lib/chromedriver/chromedriver"
+if [ ! -x "$chromedriver" ]; then
+	npm install --silent --prefix "$cache" "chromedriver@$majeure" >&2
+fi
+
+rapports="$(mktemp -d)"
+trap 'rm -rf "$rapports"' EXIT
+
+code=0
+for i in "${!pages[@]}"; do
+	npx --yes "$axe_cli" "${pages[$i]}" \
+		--chromedriver-path "$chromedriver" \
+		--tags wcag2a,wcag2aa,wcag21a,wcag21aa,wcag22aa \
+		--dir "$rapports" --save "$i.json" > /dev/null
+	wp eval-file "$theme/bin/mesure.php" axe "$rapports/$i.json" || code=1
+done
+
+if [ "$code" -eq 0 ]; then
+	echo "axe : aucune violation sur ${#pages[@]} pages."
+fi
+exit "$code"
