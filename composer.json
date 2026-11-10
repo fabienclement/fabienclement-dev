@@ -1,0 +1,26 @@
+{
+    "require": {
+        "php": ">=8.2"
+    },
+    "require-dev": {
+        "php-stubs/wordpress-stubs": "^7.0",
+        "wp-coding-standards/wpcs": "^3.0",
+        "phpstan/phpstan": "^2.2",
+        "szepeviktor/phpstan-wordpress": "^2.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "platform": {
+            "php": "8.2.29"
+        }
+    },
+    "scripts": {
+        "lint": [
+            "phpcs"
+        ],
+        "format": "phpcbf",
+        "phpstan": "phpstan analyse --memory-limit=1G"
+    }
+}
