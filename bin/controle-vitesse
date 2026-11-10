@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+#
+# Passe Lighthouse en profil mobile sur une page du site Local par gabarit du thème,
+# sauf la page 404 : Lighthouse refuse de mesurer une page qui répond 404.
+# Sort en 1 quand une page dépasse 2,5 s de LCP ou 0,1 de CLS,
+# ou quand l'accueil dépasse 200 Kio transférés. Le TBT s'affiche sans être jugé.
+#
+# Usage : bin/controle-vitesse
+
+set -euo pipefail
+
+# shellcheck source=environnement-local.sh
+. "$(dirname "$0")/environnement-local.sh"
+# shellcheck source=pages-controlees.sh
+. "$theme/bin/pages-controlees.sh"
+
+# La version est celle que fixe le skill wp-performance de wordpress-harness.
+lighthouse="lighthouse@13.5.0"
+
+rapports="$(mktemp -d)"
+trap 'rm -rf "$rapports"' EXIT
+
+code=0
+for i in "${!pages[@]}"; do
+	url="${pages[$i]}"
+	if [ "$url" = "$introuvable" ]; then
+		continue
+	fi
+	npx --yes "$lighthouse" "$url" --quiet --output=json \
+		--output-path="$rapports/$i.json" --chrome-flags="--headless=new" || true
+
+	role=""
+	if [ "$url" = "$accueil" ]; then
+		role="accueil"
+	fi
+	wp eval-file "$theme/bin/mesure.php" lighthouse "$rapports/$i.json" $role || code=1
+done
+
+exit "$code"

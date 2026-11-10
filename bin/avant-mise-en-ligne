@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+#
+# Contrôle le site Local avant une mise en ligne.
+# Lance les trois contrôles, même quand l'un d'eux échoue :
+# les surcharges de la base, l'accessibilité par axe, la vitesse par Lighthouse.
+# Sort en 1 quand un contrôle échoue.
+#
+# Usage : bin/avant-mise-en-ligne
+
+set -uo pipefail
+
+bin="$(cd "$(dirname "$0")" && pwd)"
+
+echecs=()
+for controle in surcharges accessibilite vitesse; do
+	echo "== $controle"
+	"$bin/controle-$controle"
+	code=$?
+	if [ "$code" -eq 2 ]; then
+		exit 2
+	fi
+	if [ "$code" -ne 0 ]; then
+		echecs+=("$controle")
+	fi
+done
+
+if [ "${#echecs[@]}" -ne 0 ]; then
+	echo "Contrôles en échec : ${echecs[*]}." >&2
+	exit 1
+fi
+echo "Les trois contrôles sont verts."
