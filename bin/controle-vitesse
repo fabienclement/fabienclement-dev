@@ -14,8 +14,10 @@ set -euo pipefail
 # shellcheck source=pages-controlees.sh
 . "$theme/bin/pages-controlees.sh"
 
-# La version est celle que fixe le skill wp-performance de wordpress-harness.
-lighthouse="lighthouse@13.5.0"
+# La version est fixée, pour que deux contrôles du site Local restent comparables.
+# wp-performance, dans wordpress-harness, reste en 13.5.0 jusqu'à sa propre montée.
+# Les deux outils mesurent alors le LCP avec deux versions de Lighthouse.
+lighthouse="lighthouse@13.6.0"
 
 rapports="$(mktemp -d)"
 trap 'rm -rf "$rapports"' EXIT
