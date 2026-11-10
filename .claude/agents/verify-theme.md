@@ -54,7 +54,7 @@ Termine chaque commande par `; echo "exit: $?"`, sur sa propre ligne, sans pipe.
     tail -20 /tmp/fabienclement-dev-test.log
     ```
 
-    Rapporte le nom de chaque test en échec. La séance qui t'appelle lance elle-même `tests/avant-mise-en-ligne.test.sh`, parce que ce test écrit dans la base du site Local.
+    Rapporte le nom de chaque test en échec. La séance qui t'appelle lance elle-même `tests/controle-surcharges.test.sh`, parce que ce test écrit dans la base du site Local.
 
 ## Le rapport final
 
