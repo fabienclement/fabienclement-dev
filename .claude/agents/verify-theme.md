@@ -45,7 +45,16 @@ Termine chaque commande par `; echo "exit: $?"`, sur sa propre ligne, sans pipe.
     tail -20 /tmp/fabienclement-dev-lint-php.log
     ```
 
-    `composer lint` lance PHPCS. Liste chaque erreur avec son fichier et sa ligne. Un commit du thème part avec ses lints verts, donc une erreur de lint vient de la séance.
+    `composer lint` lance PHPCS, puis PHPStan. Composer s'arrête au premier des deux qui échoue. Après un PHPCS rouge, dis que PHPStan n'a pas tourné. Liste chaque erreur avec son fichier et sa ligne. Un commit du thème part avec ses lints verts, donc une erreur de lint vient de la séance.
+
+4. **Tests PHP**
+
+    ```bash
+    composer test > /tmp/fabienclement-dev-test.log 2>&1; echo "exit: $?"
+    tail -20 /tmp/fabienclement-dev-test.log
+    ```
+
+    Rapporte le nom de chaque test en échec. La séance qui t'appelle lance elle-même `tests/avant-mise-en-ligne.test.sh`, parce que ce test écrit dans la base du site Local.
 
 ## Le rapport final
 
@@ -55,6 +64,7 @@ Termine toujours par ce résumé :
 ✅ Syntaxe PHP — exit 0
 ✅ theme.json  — exit 0
 ✅ Lint PHP    — exit 0, 0 erreur
+✅ Tests PHP   — exit 0, 0 échec
 ```
 
 Chaque ligne porte le code de sortie relevé. Le code et le compte d'erreurs sont des faits. Le symbole de la ligne est ta lecture.

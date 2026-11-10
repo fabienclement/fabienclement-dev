@@ -6,6 +6,7 @@
 	<file>.</file>
 
 	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/tests/stubs/*</exclude-pattern>
 
 	<arg name="extensions" value="php"/>
 	<arg name="basepath" value="."/>

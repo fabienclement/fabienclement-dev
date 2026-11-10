@@ -12,17 +12,19 @@ Les ADR et `decisions-mineures.md`, dans le dossier du vault, portent les décis
 
 ## Composer sert au seul développement
 
-WordPress charge le PHP du thème sans passer par Composer. Le dossier `vendor/` porte les outils de développement. Le serveur ne reçoit pas ce dossier.
+WordPress charge le PHP du thème sans passer par Composer. Les dossiers `vendor/`, `bin/` et `tests/` portent les outils de développement. Le serveur ne reçoit pas ces dossiers.
 
 > POURQUOI : le 15/10/2026, une recherche de Claude a trouvé trois pannes d'un `vendor/` chargé à l'exécution. Chacune de ces pannes bloque tout le site. Le `CLAUDE.md` du starter de thème enfant d'Astra, `astra-child-starter-theme`, détaille ces pannes.
 
 ## Ce qui fait vert
 
-`composer lint` lance PHPCS, qui contrôle les standards de WordPress sur la configuration de `phpcs.xml.dist`. `composer format` corrige ce qui se corrige seul. Le sous-agent `verify-theme` lance tous les contrôles avant un commit.
+`composer lint` lance PHPCS, qui contrôle les standards de WordPress sur la configuration de `phpcs.xml.dist`. Composer lance ensuite PHPStan, qui contrôle les types. `composer format` corrige ce qui se corrige seul. `composer test` lance PHPUnit sur `tests/`. Le sous-agent `verify-theme` lance ces contrôles avant un commit.
 
-`composer lint` ne lance pas encore PHPStan, qui contrôle les types. La pull request qui ajoute le premier fichier PHP remet `phpstan analyse` dans le script `lint` de `composer.json`.
+`tests/avant-mise-en-ligne.test.sh` éprouve le script d'avant mise en ligne sur le site Local, qui doit tourner. Ce test exporte la base dans `app/sql/`. Il crée ensuite une copie du gabarit `index`, puis il la supprime. Lance ce test avant de merger une pull request qui touche `bin/`.
 
-> POURQUOI : mesuré le 10/11/2026 sur ce thème, qui n'avait encore aucun fichier PHP. PHPStan a rendu « No files found to analyse ». Sa sortie en 1 a rendu `composer lint` rouge. PHPStan n'a pas d'option pour accepter une liste vide.
+`tests/stubs/wp-cli.php` déclare à PHPStan les méthodes de `WP_CLI` que le thème appelle. Une méthode de `WP_CLI` que le thème appelle pour la première fois s'ajoute à ce fichier.
+
+> POURQUOI : le 10/11/2026, Composer a refusé le paquet `php-stubs/wp-cli-stubs`. Toutes ses versions exigent les stubs de WordPress 6 au plus. Le thème déclare ceux de WordPress 7.
 
 ## Git
 
