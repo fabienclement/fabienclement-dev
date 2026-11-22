@@ -22,7 +22,7 @@ WordPress charge le PHP du thème sans passer par Composer. Les dossiers `vendor
 
 `tests/controle-surcharges.test.sh` éprouve le script `bin/controle-surcharges` sur le site Local, qui doit tourner. Ce test exporte la base dans `app/sql/`. Ce test crée ensuite une copie du gabarit `index`, puis supprime cette copie. Lance ce test avant de merger une pull request qui touche `bin/`.
 
-`functions.php` retire du HTML des pages ce que WordPress y écrit sans utilité pour le site. `tests/en-tete-html.test.sh` éprouve ce retrait sur le site Local, qui doit tourner. Lance ce test avant de merger une pull request qui touche `functions.php`.
+`functions.php` retire du HTML des pages ce que WordPress y écrit sans utilité pour le site. `tests/en-tete-html.test.sh` éprouve ce retrait sur le site Local, qui doit tourner. Lance ce test avant de merger une pull request qui touche `functions.php` ou `bin/`.
 
 Aucun test ne couvre `bin/controle-accessibilite` et `bin/controle-vitesse`, les scripts qui lancent axe et Lighthouse. Lance `bin/avant-mise-en-ligne` sur le site Local avant de merger une pull request qui touche l'un de ces deux scripts.
 
