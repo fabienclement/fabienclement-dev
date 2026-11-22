@@ -87,7 +87,7 @@
 					"outline": { "color": "var(--wp--preset--color--accent)", "style": "solid", "width": "3px", "offset": "2px" }
 				}
 			},
-			"heading": { "typography": { "fontWeight": "650", "letterSpacing": "-0.02em" } },
+			"heading": { "typography": { "fontWeight": "700" } },
 			"h1": { "typography": { "fontSize": "var(--wp--preset--font-size--titre)", "lineHeight": "1.2" } },
 			"h2": { "typography": { "fontSize": "var(--wp--preset--font-size--grand)", "lineHeight": "1.3" } }
 		}
