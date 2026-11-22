@@ -24,6 +24,10 @@ WordPress charge le PHP du thème sans passer par Composer. Les dossiers `vendor
 
 `functions.php` retire du HTML des pages ce que WordPress y écrit sans utilité pour le site. `tests/en-tete-html.test.sh` éprouve ce retrait sur le site Local, qui doit tourner. Lance ce test avant de merger une pull request qui touche `functions.php` ou `bin/`.
 
+Attends trois secondes entre une écriture de `functions.php` et ce test. PHP garde ce fichier en cache pendant deux secondes.
+
+> POURQUOI : le 22/11/2026, Claude a retiré une à une les lignes de `functions.php`, sans attendre. Le test a jugé le fichier d'avant l'écriture. Le réglage `opcache.revalidate_freq` de PHP vaut 2 sur le site Local.
+
 Aucun test ne couvre `bin/controle-accessibilite` et `bin/controle-vitesse`, les scripts qui lancent axe et Lighthouse. Lance `bin/avant-mise-en-ligne` sur le site Local avant de merger une pull request qui touche l'un de ces deux scripts.
 
 `tests/stubs/wp-cli.php` déclare à PHPStan les méthodes de `WP_CLI` que le thème appelle. Une méthode de `WP_CLI` que le thème appelle pour la première fois s'ajoute à ce fichier.
