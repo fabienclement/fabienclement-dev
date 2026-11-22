@@ -15,8 +15,25 @@ theme="$(cd "$(dirname "$0")/.." && pwd)"
 # shellcheck source=../bin/pages-controlees.sh
 . "$theme/bin/pages-controlees.sh"
 
-# Le script et le style des emojis portent tous un identifiant en « wp-emoji ».
-marques_interdites=("wp-emoji")
+marques_interdites=(
+	# Le script des emojis porte un identifiant en « wp-emoji ».
+	"wp-emoji"
+	# Le style des emojis vise « img.emoji », avec ou sans identifiant.
+	"img.emoji"
+	# La balise qui affiche la version de WordPress.
+	'name="generator"'
+	# Le lien vers xmlrpc.php, pour les logiciels qui publient à distance.
+	'rel="EditURI"'
+	# Le lien court d'une page, en « ?p= ».
+	"rel='shortlink'"
+	# Le lien vers l'API REST, puis celui vers la page lue dans cette API.
+	# « href= » écarte les balises script, que WordPress écrit avec le même type.
+	'rel="https://api.w.org/"'
+	'type="application/json" href='
+)
+
+# Le seul flux RSS annoncé est celui des articles : aucun flux de commentaires.
+flux_attendus=1
 
 echecs=0
 
@@ -36,6 +53,12 @@ for page in "${pages[@]}"; do
 			echecs=1
 		fi
 	done
+
+	flux="$(grep -oF 'type="application/rss+xml"' <<< "$html" | wc -l | tr -d ' ')"
+	if [ "$flux" -ne "$flux_attendus" ]; then
+		echo "$page : le HTML annonce $flux flux RSS au lieu de $flux_attendus." >&2
+		echecs=1
+	fi
 done
 
 if [ "$echecs" -ne 0 ]; then
