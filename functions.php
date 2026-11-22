@@ -1,6 +1,6 @@
 <?php
 /**
- * Ce que le thème retire du HTML que WordPress écrit par défaut.
+ * Ce que le thème retire ou ferme de ce que WordPress fait par défaut.
  *
  * @package fabienclement-dev
  */
@@ -23,9 +23,9 @@ remove_action( 'wp_head', 'wp_shortlink_wp_head', 10 );
 // Les liens vers l'API REST servent des logiciels, et aucun visiteur.
 remove_action( 'wp_head', 'rest_output_link_wp_head', 10 );
 
-// Les liens oEmbed laissent un autre site afficher la page en encart.
-// WordPress n'écrit ces liens que si ce crochet est en place.
-remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
+// Le site refuse tout commentaire et tout rétrolien, quel que soit le réglage de la page.
+add_filter( 'comments_open', '__return_false' );
+add_filter( 'pings_open', '__return_false' );
 
-// Le site n'a pas de commentaires : l'en-tête annonce le seul flux des articles.
+// L'en-tête annonce le flux des articles, sans les flux des commentaires.
 add_filter( 'feed_links_show_comments_feed', '__return_false' );

@@ -28,9 +28,7 @@ marques_interdites=(
 	"rel='shortlink'"
 	# Le lien vers l'API REST, puis celui vers la page lue dans cette API.
 	'rel="https://api.w.org/"'
-	'type="application/json"'
-	# Les liens qui laissent un autre site afficher la page en encart.
-	'+oembed'
+	'type="application/json" href='
 )
 
 # Le seul flux RSS annoncé est celui des articles : aucun flux de commentaires.
