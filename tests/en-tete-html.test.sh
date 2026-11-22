@@ -27,6 +27,7 @@ marques_interdites=(
 	# Le lien court d'une page, en « ?p= ».
 	"rel='shortlink'"
 	# Le lien vers l'API REST, puis celui vers la page lue dans cette API.
+	# « href= » écarte les balises script, que WordPress écrit avec le même type.
 	'rel="https://api.w.org/"'
 	'type="application/json" href='
 )

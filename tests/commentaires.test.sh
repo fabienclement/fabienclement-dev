@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
-# Éprouve la fermeture des commentaires sur le site Local, pour un article
-# et pour une page. Le site doit tourner dans Local.
+# Éprouve la fermeture des commentaires et des rétroliens sur le site Local,
+# pour un article et pour une page. Le site doit tourner dans Local.
 # Le test envoie un commentaire vide, que WordPress n'écrit jamais en base :
 # WordPress répond 403 quand les commentaires sont fermés, et 200 sinon.
 #
