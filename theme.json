@@ -24,9 +24,25 @@
 			"fluid": true,
 			"fontFamilies": [
 				{
-					"slug": "systeme",
-					"name": "Police système",
-					"fontFamily": "system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif"
+					"slug": "hanken-grotesk",
+					"name": "Hanken Grotesk",
+					"fontFamily": "\"Hanken Grotesk\", system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif",
+					"fontFace": [
+						{
+							"fontFamily": "\"Hanken Grotesk\"",
+							"fontStyle": "normal",
+							"fontWeight": "100 900",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/hanken-grotesk-romain.woff2" ]
+						},
+						{
+							"fontFamily": "\"Hanken Grotesk\"",
+							"fontStyle": "italic",
+							"fontWeight": "100 900",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/hanken-grotesk-italique.woff2" ]
+						}
+					]
 				}
 			],
 			"fontSizes": [
@@ -52,7 +68,7 @@
 			"text": "var(--wp--preset--color--texte)"
 		},
 		"typography": {
-			"fontFamily": "var(--wp--preset--font-family--systeme)",
+			"fontFamily": "var(--wp--preset--font-family--hanken-grotesk)",
 			"fontSize": "var(--wp--preset--font-size--normal)",
 			"lineHeight": "1.6"
 		},
@@ -71,6 +87,7 @@
 					"outline": { "color": "var(--wp--preset--color--accent)", "style": "solid", "width": "3px", "offset": "2px" }
 				}
 			},
+			"heading": { "typography": { "fontWeight": "650", "letterSpacing": "-0.02em" } },
 			"h1": { "typography": { "fontSize": "var(--wp--preset--font-size--titre)", "lineHeight": "1.2" } },
 			"h2": { "typography": { "fontSize": "var(--wp--preset--font-size--grand)", "lineHeight": "1.3" } }
 		}
