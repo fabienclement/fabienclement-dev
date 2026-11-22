@@ -35,7 +35,7 @@ final class Polices_Test extends TestCase {
 	/**
 	 * Rend le contenu de theme.json.
 	 *
-	 * @return array{settings: array{typography: array{fontFamilies: list<array{slug: string, fontFamily: string, fontFace: list<array{fontDisplay: string, src: list<string>}>}>}}, styles: array{typography: array{fontFamily: string}}}
+	 * @return array{settings: array{typography: array{fontFamilies: list<array{slug: string, fontFamily: string, fontFace: list<array{fontDisplay: string, src: list<string>}>}>}}, styles: array{typography: array{fontFamily: string}, elements: array{heading: array{typography: array<string, string>}}}}
 	 */
 	private function theme_json(): array {
 		$contenu = file_get_contents( dirname( __DIR__ ) . '/theme.json' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
@@ -43,7 +43,7 @@ final class Polices_Test extends TestCase {
 		/**
 		 * Le contenu décodé de theme.json.
 		 *
-		 * @var array{settings: array{typography: array{fontFamilies: list<array{slug: string, fontFamily: string, fontFace: list<array{fontDisplay: string, src: list<string>}>}>}}, styles: array{typography: array{fontFamily: string}}} $theme
+		 * @var array{settings: array{typography: array{fontFamilies: list<array{slug: string, fontFamily: string, fontFace: list<array{fontDisplay: string, src: list<string>}>}>}}, styles: array{typography: array{fontFamily: string}, elements: array{heading: array{typography: array<string, string>}}}} $theme
 		 */
 		$theme = json_decode( (string) $contenu, true, 512, JSON_THROW_ON_ERROR );
 
@@ -138,5 +138,15 @@ final class Polices_Test extends TestCase {
 		foreach ( $this->famille_hanken_grotesk()['fontFace'] as $face ) {
 			$this->assertSame( 'swap', $face['fontDisplay'] );
 		}
+	}
+
+	/**
+	 * Les titres prennent le gras courant, 700, et l'interlettrage par défaut de la police.
+	 */
+	public function test_les_titres_prennent_le_gras_courant_sans_interlettrage(): void {
+		$this->assertSame(
+			array( 'fontWeight' => '700' ),
+			$this->theme_json()['styles']['elements']['heading']['typography']
+		);
 	}
 }
