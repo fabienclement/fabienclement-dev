@@ -22,7 +22,7 @@ WordPress charge le PHP du thème sans passer par Composer. Les dossiers `vendor
 
 `tests/controle-surcharges.test.sh` éprouve le script `bin/controle-surcharges` sur le site Local, qui doit tourner. Ce test exporte la base dans `app/sql/`. Ce test crée ensuite une copie du gabarit `index`, puis supprime cette copie. Lance ce test avant de merger une pull request qui touche `bin/`.
 
-`functions.php` retire du HTML des pages et des en-têtes HTTP ce que WordPress y écrit sans utilité pour le site. `functions.php` ferme aussi les commentaires et les rétroliens. `tests/en-tete-html.test.sh` éprouve ce retrait. `tests/commentaires.test.sh` éprouve cette fermeture. Ces tests interrogent le site Local, qui doit tourner. Lance ces tests avant de merger une pull request qui touche `functions.php` ou `bin/`.
+`functions.php` retire du HTML des pages et des en-têtes HTTP ce que WordPress y écrit sans utilité pour le site. `functions.php` ferme aussi les commentaires et les rétroliens. `functions.php` écrit enfin dans l'en-tête HTML la balise qui précharge la police romaine du thème. `tests/en-tete-html.test.sh` éprouve ce retrait et ce préchargement. `tests/commentaires.test.sh` éprouve cette fermeture. Ces tests interrogent le site Local, qui doit tourner. Lance ces tests avant de merger une pull request qui touche `functions.php` ou `bin/`.
 
 Attends trois secondes entre une écriture de `functions.php` et ces tests. PHP garde ce fichier en cache pendant deux secondes.
 
