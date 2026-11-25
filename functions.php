@@ -23,6 +23,10 @@ remove_action( 'wp_head', 'wp_shortlink_wp_head', 10 );
 // Les liens vers l'API REST servent des logiciels, et aucun visiteur.
 remove_action( 'wp_head', 'rest_output_link_wp_head', 10 );
 
+// WordPress envoie aussi ces deux liens dans un en-tête HTTP « Link », hors du HTML.
+remove_action( 'template_redirect', 'wp_shortlink_header', 11 );
+remove_action( 'template_redirect', 'rest_output_link_header', 11 );
+
 // Le site refuse tout commentaire et tout rétrolien, quel que soit le réglage de la page.
 add_filter( 'comments_open', '__return_false' );
 add_filter( 'pings_open', '__return_false' );
