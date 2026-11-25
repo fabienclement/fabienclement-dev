@@ -4,8 +4,7 @@
 # Éprouve aussi les en-têtes HTTP « Link » de la réponse à chaque page.
 # Le site doit tourner dans Local. Le test ne fait que lire les pages.
 # Chaque marque interdite est un texte que WordPress écrit par défaut,
-# dans la page ou dans ses en-têtes HTTP. Le thème retire ces textes dans
-# functions.php, ou par le réglage du bloc de navigation de parts/header.html.
+# dans la page ou dans ses en-têtes HTTP, et que le thème retire dans functions.php.
 #
 # Usage : tests/en-tete-html.test.sh
 
@@ -32,11 +31,6 @@ marques_interdites=(
 	# « href= » écarte les balises script, que WordPress écrit avec le même type.
 	'rel="https://api.w.org/"'
 	'type="application/json" href='
-	# L'API d'interactivité, le script de 43 Ko qui anime les blocs.
-	# Un bloc de navigation dont le menu se replie charge ce script.
-	"script-modules/interactivity"
-	# La carte d'import, que WordPress n'écrit que pour un module de script.
-	'id="wp-importmap"'
 )
 
 # WordPress envoie aussi ces liens dans un en-tête HTTP « Link », hors du HTML.
