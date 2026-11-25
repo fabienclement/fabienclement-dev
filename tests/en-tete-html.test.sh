@@ -2,6 +2,7 @@
 #
 # Éprouve le HTML que le site Local sert, sur une page par gabarit du thème.
 # Éprouve aussi les en-têtes HTTP « Link » de la réponse à chaque page.
+# Éprouve aussi que chaque page précharge la police romaine du thème.
 # Le site doit tourner dans Local. Le test ne fait que lire les pages.
 # Chaque marque interdite est un texte que WordPress écrit par défaut,
 # dans la page ou dans ses en-têtes HTTP, et que le thème retire dans functions.php.
@@ -73,6 +74,15 @@ for page in "${pages[@]}"; do
 			echecs=1
 		fi
 	done
+
+	# La balise de préchargement doit porter l'adresse du @font-face.
+	# Sinon, le navigateur télécharge la police deux fois.
+	police="$(grep -oE "url\('[^']*hanken-grotesk-romain\.woff2'\)" <<< "$html" | head -n 1 | sed -E "s/^url\('//; s/'\)$//" || true)"
+	prechargement="<link rel=\"preload\" href=\"$police\" as=\"font\" type=\"font/woff2\" crossorigin>"
+	if [ -z "$police" ] || ! grep -qF "$prechargement" <<< "$html"; then
+		echo "$page : le HTML ne précharge pas la police romaine du @font-face." >&2
+		echecs=1
+	fi
 
 	flux="$(grep -oF 'type="application/rss+xml"' <<< "$html" | wc -l | tr -d ' ')"
 	if [ "$flux" -ne "$flux_attendus" ]; then
