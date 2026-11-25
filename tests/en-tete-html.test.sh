@@ -31,6 +31,11 @@ marques_interdites=(
 	# « href= » écarte les balises script, que WordPress écrit avec le même type.
 	'rel="https://api.w.org/"'
 	'type="application/json" href='
+	# L'API d'interactivité, le script de 43 Ko qui anime les blocs.
+	# Un bloc de navigation dont le menu se replie charge ce script.
+	"script-modules/interactivity"
+	# La carte d'import, que WordPress n'écrit que pour un module de script.
+	'id="wp-importmap"'
 )
 
 # WordPress envoie aussi ces liens dans un en-tête HTTP « Link », hors du HTML.
