@@ -1,6 +1,6 @@
 <?php
 /**
- * Ce que le thème retire ou ferme de ce que WordPress fait par défaut.
+ * Ce que le thème retire, ferme ou ajoute à ce que WordPress fait par défaut.
  *
  * @package fabienclement-dev
  */
@@ -33,3 +33,18 @@ add_filter( 'pings_open', '__return_false' );
 
 // L'en-tête annonce le flux des articles, sans les flux des commentaires.
 add_filter( 'feed_links_show_comments_feed', '__return_false' );
+
+// Le cœur de WordPress ne précharge aucune police de theme.json.
+// Sans la balise de préchargement, le navigateur demande la police après avoir calculé le style de la page.
+// La balise ne précharge pas l'italique, que peu de textes emploient.
+add_action( 'wp_head', 'fabienclement_dev_precharger_police', 1 );
+
+/**
+ * Écrit dans l'en-tête HTML la balise qui précharge la police romaine du thème.
+ */
+function fabienclement_dev_precharger_police(): void {
+	printf(
+		'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
+		esc_url( get_theme_file_uri( 'assets/fonts/hanken-grotesk-romain.woff2' ) )
+	);
+}
